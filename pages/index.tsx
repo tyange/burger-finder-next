@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <p>next burger finder</p>
+        <p className="text-amber-600">next burger finder</p>
       </main>
     </div>
   );
