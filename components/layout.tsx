@@ -6,9 +6,11 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <Header />
-      <main>{children}</main>
+      <main className="flex items-center justify-center flex-1">
+        {children}
+      </main>
     </div>
   );
 };
