@@ -36,3 +36,11 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# intellij
+/.idea/.gitignore
+/.idea/burger-finder.iml
+/.idea/modules.xml
+/.idea/prettier.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
