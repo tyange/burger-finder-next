@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import SideBar from "../components/side-bar";
 
 const Home: NextPage = () => {
   return (
@@ -10,7 +11,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <p className="text-amber-600">next burger finder</p>
+        <SideBar />
       </main>
     </div>
   );
