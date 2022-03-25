@@ -1,32 +1,33 @@
+import { useAppSelector } from "../app/hooks";
+import { getIngredients } from "../features/ingredientsSlice";
+
+type ingredientsType = {
+  [key: string]: Object;
+};
+
 const SideBar = () => {
-  return (
-    <aside>
-      <div>
-        <div>
+  const ingredients: ingredientsType = useAppSelector(getIngredients);
+
+  const ingredientsKeys = Object.keys(ingredients);
+
+  const panel = ingredientsKeys.map((ingredientKey) => {
+    return (
+      <div key={ingredientKey}>
+        <details>
+          <summary>{ingredientKey}</summary>
           <ul>
-            <li>ingredients 1</li>
+            {Object.keys(ingredients[ingredientKey]).map((subIngredient) => (
+              <li key={subIngredient}>
+                <button>{subIngredient}</button>
+              </li>
+            ))}
           </ul>
-        </div>
-        <div>
-          <ul>
-            <li>ingredients 1</li>
-            <li>ingredients 2</li>
-            <li>ingredients 3</li>
-          </ul>
-        </div>
-        <div>
-          <ul>
-            <li>ingredients 4</li>
-          </ul>
-        </div>
-        <div>
-          <ul>
-            <li>ingredients 5</li>
-          </ul>
-        </div>
+        </details>
       </div>
-    </aside>
-  );
+    );
+  });
+
+  return <aside>{panel}</aside>;
 };
 
 export default SideBar;
