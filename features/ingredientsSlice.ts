@@ -1,68 +1,127 @@
+import { PayloadAction } from "./../node_modules/@reduxjs/toolkit/src/createAction";
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 
-// state의 타입 설정
-interface ingredientsState {
-  ingredients: {
-    bread: { lidBun: number; extraBread: number; bottomBun: number };
-    vegetable: {
-      lettuce: number;
-      pickle: number;
-      onion: number;
-      tomato: number;
-    };
-    sauce: {
-      spicySauce: number;
-      bicmacSauce: number;
-      teriyakiSauce: number;
-      ketchupSauce: number;
-      mayoSauce: number;
-    };
-    patty: {
-      chickenPatty: number;
-      hamburgPatty: number;
-      porkPatty: number;
-      beefPatty: number;
-      shrimpPatty: number;
-      vegetablePatty: number;
-    };
-    extra: { hashBrown: number; cheese: number };
-  };
-}
+export const ingredientKind = {
+  BREAD: "bread",
+  VEGETABLE: "vegetable",
+  SAUCE: "sauce",
+  PATTY: "patty",
+  EXTRA: "extra",
+};
+
+type Ingredients = Array<{ name: string; kind: string; amount: number }>;
 
 // state 초기화
-const initialState: ingredientsState = {
-  ingredients: {
-    bread: { lidBun: 0, extraBread: 0, bottomBun: 0 },
-    vegetable: { lettuce: 0, pickle: 0, onion: 0, tomato: 0 },
-    sauce: {
-      spicySauce: 0,
-      bicmacSauce: 0,
-      teriyakiSauce: 0,
-      ketchupSauce: 0,
-      mayoSauce: 0,
-    },
-    patty: {
-      chickenPatty: 0,
-      hamburgPatty: 0,
-      porkPatty: 0,
-      beefPatty: 0,
-      shrimpPatty: 0,
-      vegetablePatty: 0,
-    },
-    extra: { hashBrown: 0, cheese: 0 },
+const initialState: Ingredients = [
+  {
+    name: "bun",
+    kind: ingredientKind.BREAD,
+    amount: 0,
   },
-};
+  {
+    name: "lettuce",
+    kind: ingredientKind.VEGETABLE,
+    amount: 0,
+  },
+  {
+    name: "pickle",
+    kind: ingredientKind.VEGETABLE,
+    amount: 0,
+  },
+  {
+    name: "onion",
+    kind: ingredientKind.VEGETABLE,
+    amount: 0,
+  },
+  {
+    name: "tomato",
+    kind: ingredientKind.VEGETABLE,
+    amount: 0,
+  },
+  {
+    name: "spicy-sauce",
+    kind: ingredientKind.SAUCE,
+    amount: 0,
+  },
+  {
+    name: "bicmac-sauce",
+    kind: ingredientKind.SAUCE,
+    amount: 0,
+  },
+  {
+    name: "teriyaki-sauce",
+    kind: ingredientKind.SAUCE,
+    amount: 0,
+  },
+  {
+    name: "ketchup-sauce",
+    kind: ingredientKind.SAUCE,
+    amount: 0,
+  },
+  {
+    name: "mayo-sauce",
+    kind: ingredientKind.SAUCE,
+    amount: 0,
+  },
+  {
+    name: "chicken-patty",
+    kind: ingredientKind.PATTY,
+    amount: 0,
+  },
+  {
+    name: "hamburg-patty",
+    kind: ingredientKind.PATTY,
+    amount: 0,
+  },
+  {
+    name: "pork-patty",
+    kind: ingredientKind.PATTY,
+    amount: 0,
+  },
+  {
+    name: "beef-patty",
+    kind: ingredientKind.PATTY,
+    amount: 0,
+  },
+  {
+    name: "shrimp-patty",
+    kind: ingredientKind.PATTY,
+    amount: 0,
+  },
+  {
+    name: "vegetable-patty",
+    kind: ingredientKind.PATTY,
+    amount: 0,
+  },
+  {
+    name: "hash-brown",
+    kind: ingredientKind.EXTRA,
+    amount: 0,
+  },
+  {
+    name: "cheese",
+    kind: ingredientKind.EXTRA,
+    amount: 0,
+  },
+];
 
 //
 export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
-  reducers: {},
+  reducers: {
+    addOneIngredient(state: Ingredients, action: PayloadAction<string>) {
+      const targetIngredient = state.find(
+        (ingredient) => ingredient.name === action.payload
+      );
+      targetIngredient!.amount += 1;
+      state = [...state!, targetIngredient!];
+    },
+  },
 });
 
-export const selectIngredients = (state: RootState) =>
-  state.ingredients.ingredients;
+export const selectIngredients = (state: RootState) => state;
 
 export const getIngredients = createSelector(
   selectIngredients,
@@ -70,5 +129,7 @@ export const getIngredients = createSelector(
     return ingredients;
   }
 );
+
+export const { addOneIngredient } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
