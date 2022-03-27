@@ -10,10 +10,7 @@ export const ingredientKind = {
   EXTRA: "extra",
 };
 
-type Ingredients = Array<{ name: string; kind: string; amount: number }>;
-
-// state 초기화
-const initialState: Ingredients = [
+export const allIngredients = [
   {
     name: "bun",
     kind: ingredientKind.BREAD,
@@ -106,17 +103,31 @@ const initialState: Ingredients = [
   },
 ];
 
+export type Ingredient = { name: string; kind: string; amount: number };
+
+export type Ingredients = Ingredient[];
+
+// state 초기화
+const initialState: Ingredients = [];
+
 //
 export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
-    addOneIngredient(state: Ingredients, action: PayloadAction<string>) {
-      const targetIngredient = state.find(
-        (ingredient) => ingredient.name === action.payload
+    addOneIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
+      const targetIngredientIndex = state.findIndex(
+        (ingredient) => ingredient.name === action.payload.name
       );
-      targetIngredient!.amount += 1;
-      state = [...state!, targetIngredient!];
+
+      if (state.length === 0 || targetIngredientIndex === -1) {
+        const payloadIngredient = action.payload;
+        payloadIngredient.amount += 1;
+        state.push(payloadIngredient);
+        return;
+      }
+
+      state[targetIngredientIndex].amount += 1;
     },
   },
 });

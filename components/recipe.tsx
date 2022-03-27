@@ -3,11 +3,7 @@ import { getIngredients } from "../features/ingredientsSlice";
 
 import { nameConverter } from "../features/ingredientNameConverter";
 
-// type ingredientsType = {
-//   [key: string]: {
-//     [key: string]: number;
-//   };
-// };
+import { FaTimes } from "react-icons/fa";
 
 const Recipe = () => {
   const data = useAppSelector(getIngredients);
@@ -19,8 +15,9 @@ const Recipe = () => {
           {data.ingredients.map(
             (ingredient) =>
               ingredient.amount !== 0 && (
-                <li key={ingredient.name}>
+                <li key={ingredient.name} className="flex items-center gap-2">
                   <span>{nameConverter(ingredient.name)}</span>
+                  <FaTimes />
                   <span>{ingredient.amount}</span>
                 </li>
               )
