@@ -1,9 +1,7 @@
 import { useAppSelector } from "../app/hooks";
 import { getIngredients } from "../features/ingredientsSlice";
 
-import { nameConverter } from "../features/ingredientNameConverter";
-
-import { FaTimes } from "react-icons/fa";
+import RecipeIngredient from "./recipe-ingredient";
 
 const Recipe = () => {
   const data = useAppSelector(getIngredients);
@@ -11,14 +9,18 @@ const Recipe = () => {
   return (
     <div className="box-border flex flex-col col-span-5 p-5 border shadow-md rounded-xl">
       <div className="flex flex-col items-end flex-1">
-        <ul className="pr-3">
+        <ul className="flex flex-col gap-3 pr-3">
           {data.ingredients.map(
             (ingredient) =>
               ingredient.amount !== 0 && (
-                <li key={ingredient.name} className="flex items-center gap-2">
-                  <span>{nameConverter(ingredient.name)}</span>
-                  <FaTimes />
-                  <span>{ingredient.amount}</span>
+                <li
+                  key={ingredient.name}
+                  className="box-border flex items-center gap-2 p-3 border shadow-sm rounded-xl"
+                >
+                  <RecipeIngredient
+                    ingredientName={ingredient.name}
+                    ingredientAmount={ingredient.amount}
+                  />
                 </li>
               )
           )}
