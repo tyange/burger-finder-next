@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { allIngredients, addOneIngredient } from "../features/ingredientsSlice";
+import { useAppDispatch } from "../app/hooks";
+import { allIngredients, addIngredient } from "../features/ingredientsSlice";
 
 import {
   kindConverter,
@@ -21,7 +21,7 @@ const IngredientButtons = ({ kind }: Props) => {
           .filter((ingredient) => ingredient.kind === kind)
           .map((ingredient) => (
             <li key={ingredient.name}>
-              <button onClick={() => dispatch(addOneIngredient(ingredient))}>
+              <button onClick={() => dispatch(addIngredient(ingredient))}>
                 {nameConverter(ingredient.name)}
               </button>
             </li>

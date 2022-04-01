@@ -115,19 +115,36 @@ export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
+    addIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
+      const targetIngredientIndex = state.findIndex(
+        (ingredient) => ingredient.name === action.payload.name
+      );
+
+      if (targetIngredientIndex !== -1) {
+        state[targetIngredientIndex].amount += 1;
+        return;
+      }
+
+      state.push({ ...action.payload, amount: 1 });
+    },
     addOneIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
       const targetIngredientIndex = state.findIndex(
         (ingredient) => ingredient.name === action.payload.name
       );
 
-      if (state.length === 0 || targetIngredientIndex === -1) {
-        const payloadIngredient = action.payload;
-        payloadIngredient.amount += 1;
-        state.push(payloadIngredient);
+      state[targetIngredientIndex].amount += 1;
+    },
+    removeOneIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
+      const targetIngredientIndex = state.findIndex(
+        (ingredient) => ingredient.name === action.payload.name
+      );
+
+      if (state[targetIngredientIndex].amount === 1) {
+        state.splice(targetIngredientIndex, 1);
         return;
       }
 
-      state[targetIngredientIndex].amount += 1;
+      state[targetIngredientIndex].amount -= 1;
     },
   },
 });
@@ -141,6 +158,7 @@ export const getIngredients = createSelector(
   }
 );
 
-export const { addOneIngredient } = ingredientsSlice.actions;
+export const { addIngredient, addOneIngredient, removeOneIngredient } =
+  ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

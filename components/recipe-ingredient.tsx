@@ -1,24 +1,30 @@
-import { Ingredient } from "../features/ingredientsSlice";
+import {
+  Ingredient,
+  addOneIngredient,
+  removeOneIngredient,
+} from "../features/ingredientsSlice";
 
 import { nameConverter } from "../features/ingredientNameConverter";
 
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { useAppDispatch } from "../app/hooks";
 
 type Props = {
-  ingredientName: string;
-  ingredientAmount: number;
+  ingredient: Ingredient;
 };
 
-const RecipeIngredient = ({ ingredientName, ingredientAmount }: Props) => {
+const RecipeIngredient = ({ ingredient }: Props) => {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="flex justify-between w-full">
-      <span className="mr-5">{nameConverter(ingredientName)}</span>
+      <span className="mr-5">{nameConverter(ingredient.name)}</span>
       <div className="flex items-center gap-2">
-        <button>
+        <button onClick={() => dispatch(addOneIngredient(ingredient))}>
           <FaPlus />
         </button>
-        <span>{ingredientAmount}</span>
-        <button>
+        <span>{ingredient.amount}</span>
+        <button onClick={() => dispatch(removeOneIngredient(ingredient))}>
           <FaMinus />
         </button>
       </div>

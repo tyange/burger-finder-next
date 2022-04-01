@@ -17,10 +17,7 @@ const Recipe = () => {
                   key={ingredient.name}
                   className="box-border flex items-center gap-2 p-3 border shadow-sm rounded-xl"
                 >
-                  <RecipeIngredient
-                    ingredientName={ingredient.name}
-                    ingredientAmount={ingredient.amount}
-                  />
+                  <RecipeIngredient ingredient={ingredient} />
                 </li>
               )
           )}
