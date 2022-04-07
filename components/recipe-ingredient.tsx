@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
+
 import {
   Ingredient,
   addOneIngredient,
   removeOneIngredient,
+  settingIngredientAmount,
 } from "../features/ingredientsSlice";
 
 import { nameConverter } from "../features/ingredientNameConverter";
@@ -16,15 +19,52 @@ type Props = {
 const RecipeIngredient = ({ ingredient }: Props) => {
   const dispatch = useAppDispatch();
 
+  const [enteredAmount, setEnteredAmount] = useState(1);
+  useEffect(() => {
+    setEnteredAmount(ingredient.amount);
+  }, [ingredient.amount]);
+
+  const plusHandler = () => {
+    dispatch(addOneIngredient(ingredient));
+  };
+
+  const minusHandler = () => {
+    dispatch(removeOneIngredient(ingredient));
+  };
+
+  const amountChangeHandler = (e: any) => {
+    if (e.target.value.length === 0) {
+      dispatch(
+        settingIngredientAmount({
+          ingredient,
+          enteredAmount: 1,
+        })
+      );
+      return;
+    }
+
+    dispatch(
+      settingIngredientAmount({
+        ingredient,
+        enteredAmount: parseInt(e.target.value),
+      })
+    );
+  };
+
   return (
     <div className="flex justify-between w-full">
       <span className="mr-5">{nameConverter(ingredient.name)}</span>
       <div className="flex items-center gap-2">
-        <button onClick={() => dispatch(addOneIngredient(ingredient))}>
+        <button onClick={plusHandler}>
           <FaPlus />
         </button>
-        <span>{ingredient.amount}</span>
-        <button onClick={() => dispatch(removeOneIngredient(ingredient))}>
+        <input
+          type="number"
+          className="text-center"
+          value={enteredAmount}
+          onChange={amountChangeHandler}
+        />
+        <button onClick={minusHandler}>
           <FaMinus />
         </button>
       </div>

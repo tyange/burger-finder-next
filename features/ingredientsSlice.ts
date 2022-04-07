@@ -110,34 +110,28 @@ export type Ingredients = Ingredient[];
 // state 초기화
 const initialState: Ingredients = [];
 
-//
+const findIndexByName = (arr: any, findingName: string) => {
+  return arr.findIndex((item: any) => item.name === findingName);
+};
+
 export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
     addIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
-      const targetIngredientIndex = state.findIndex(
-        (ingredient) => ingredient.name === action.payload.name
-      );
+      const targetIngredientIndex = findIndexByName(state, action.payload.name);
 
-      if (targetIngredientIndex !== -1) {
-        state[targetIngredientIndex].amount += 1;
-        return;
-      }
-
-      state.push({ ...action.payload, amount: 1 });
+      targetIngredientIndex !== -1
+        ? (state[targetIngredientIndex].amount += 1)
+        : state.push({ ...action.payload, amount: 1 });
     },
     addOneIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
-      const targetIngredientIndex = state.findIndex(
-        (ingredient) => ingredient.name === action.payload.name
-      );
+      const targetIngredientIndex = findIndexByName(state, action.payload.name);
 
       state[targetIngredientIndex].amount += 1;
     },
     removeOneIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
-      const targetIngredientIndex = state.findIndex(
-        (ingredient) => ingredient.name === action.payload.name
-      );
+      const targetIngredientIndex = findIndexByName(state, action.payload.name);
 
       if (state[targetIngredientIndex].amount === 1) {
         state.splice(targetIngredientIndex, 1);
@@ -145,6 +139,22 @@ export const ingredientsSlice = createSlice({
       }
 
       state[targetIngredientIndex].amount -= 1;
+    },
+    settingIngredientAmount(
+      state: Ingredients,
+      action: PayloadAction<{ ingredient: Ingredient; enteredAmount: number }>
+    ) {
+      const targetIngredientIndex = findIndexByName(
+        state,
+        action.payload.ingredient.name
+      );
+
+      if (action.payload.enteredAmount <= 0 || NaN) {
+        state.splice(targetIngredientIndex, 1);
+        return;
+      }
+
+      state[targetIngredientIndex].amount = action.payload.enteredAmount;
     },
   },
 });
@@ -158,7 +168,11 @@ export const getIngredients = createSelector(
   }
 );
 
-export const { addIngredient, addOneIngredient, removeOneIngredient } =
-  ingredientsSlice.actions;
+export const {
+  addIngredient,
+  addOneIngredient,
+  removeOneIngredient,
+  settingIngredientAmount,
+} = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

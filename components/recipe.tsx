@@ -23,11 +23,14 @@ const Recipe = () => {
           )}
         </ul>
       </div>
-      <div className="box-border flex justify-end pt-3 border-t-2">
-        <span className="mr-3">선택한 재료의 총 개수 :</span>
-        <span className="pr-3">
-          {data.ingredients.reduce((prev, next) => prev + next.amount, 0)}
-        </span>
+      <div className="box-border flex justify-between pt-3 border-t-2">
+        <div>
+          <span className="mr-3">선택한 재료의 총 개수 :</span>
+          <span className="pr-3">
+            {data.ingredients.reduce((prev, next) => prev + next.amount, 0)}
+          </span>
+        </div>
+        <div>{/* <button onClick={logging}>logging</button> */}</div>
       </div>
     </div>
   );
