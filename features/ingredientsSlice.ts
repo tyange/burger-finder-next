@@ -150,7 +150,6 @@ export const ingredientsSlice = createSlice({
       );
 
       if (action.payload.enteredAmount <= 0 || NaN) {
-        state.splice(targetIngredientIndex, 1);
         return;
       }
 

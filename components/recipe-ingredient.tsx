@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Ingredient,
@@ -17,23 +17,25 @@ type Props = {
 };
 
 const RecipeIngredient = ({ ingredient }: Props) => {
+  console.log("rerender");
+
   const dispatch = useAppDispatch();
 
   const [enteredAmount, setEnteredAmount] = useState(1);
-  useEffect(() => {
-    setEnteredAmount(ingredient.amount);
-  }, [ingredient.amount]);
 
   const plusHandler = () => {
+    setEnteredAmount((prev) => (prev += 1));
     dispatch(addOneIngredient(ingredient));
   };
 
   const minusHandler = () => {
+    setEnteredAmount((prev) => (prev -= 1));
     dispatch(removeOneIngredient(ingredient));
   };
 
   const amountChangeHandler = (e: any) => {
     if (e.target.value.length === 0) {
+      setEnteredAmount(1);
       dispatch(
         settingIngredientAmount({
           ingredient,
@@ -43,6 +45,7 @@ const RecipeIngredient = ({ ingredient }: Props) => {
       return;
     }
 
+    setEnteredAmount(parseInt(e.target.value));
     dispatch(
       settingIngredientAmount({
         ingredient,
@@ -72,4 +75,4 @@ const RecipeIngredient = ({ ingredient }: Props) => {
   );
 };
 
-export default RecipeIngredient;
+export default React.memo(RecipeIngredient);
