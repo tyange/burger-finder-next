@@ -149,10 +149,6 @@ export const ingredientsSlice = createSlice({
         action.payload.ingredient.name
       );
 
-      if (action.payload.enteredAmount <= 0 || NaN) {
-        return;
-      }
-
       state[targetIngredientIndex].amount = action.payload.enteredAmount;
     },
   },
