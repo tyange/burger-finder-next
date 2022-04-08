@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
+import { useAppDispatch } from "../app/hooks";
 import {
   Ingredient,
-  addOneIngredient,
-  removeOneIngredient,
   settingIngredientAmount,
 } from "../features/ingredientsSlice";
 
 import { nameConverter } from "../features/ingredientNameConverter";
-
-import { FaPlus, FaMinus } from "react-icons/fa";
-import { useAppDispatch } from "../app/hooks";
 
 type Props = {
   ingredient: Ingredient;
@@ -29,16 +25,6 @@ const RecipeIngredient = ({ ingredient }: Props) => {
   // 다시 말해 Recipe 컴포넌트의 어떤 자식 컴포넌트도 렌더링 되지 않은 상태를 의미한다.)
   // 이 경우 자연스럽게 initialState인 1을 부여 받게 된다.
   const [enteredAmount, setEnteredAmount] = useState(1);
-
-  const plusHandler = () => {
-    setEnteredAmount((prev) => (prev += 1));
-    dispatch(addOneIngredient(ingredient));
-  };
-
-  const minusHandler = () => {
-    setEnteredAmount((prev) => (prev -= 1));
-    dispatch(removeOneIngredient(ingredient));
-  };
 
   // 위에서 state를 선언하고 나면, 아래의 Jsx에서 사용할 input의 onChange 핸들러, amountChangeHandler를 선언한다.
   // amountChangeHandler는 입력값을 받아 state로 새롭게 저장하고 동시에 주어진 입력값을 재료의 개수로 store(Redux)에 전달한다.
@@ -70,18 +56,12 @@ const RecipeIngredient = ({ ingredient }: Props) => {
     <div className="flex justify-between w-full">
       <span className="mr-5">{nameConverter(ingredient.name)}</span>
       <div className="flex items-center gap-2">
-        <button onClick={plusHandler}>
-          <FaPlus />
-        </button>
         <input
           type="number"
           className="text-center"
           value={enteredAmount}
           onChange={amountChangeHandler}
         />
-        <button onClick={minusHandler}>
-          <FaMinus />
-        </button>
       </div>
     </div>
   );
