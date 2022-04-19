@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../app/hooks";
 import {
   Ingredient,
+  addOneIngredient,
+  removeOneIngredient,
   settingIngredientAmount,
 } from "../features/ingredientsSlice";
+
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 import { nameConverter } from "../features/ingredientNameConverter";
 
@@ -52,16 +56,34 @@ const RecipeIngredient = ({ ingredient }: Props) => {
     );
   };
 
+  const minusHandler = () => {
+    setEnteredAmount((prev) => (prev -= 1));
+
+    dispatch(removeOneIngredient(ingredient));
+  };
+
+  const plusHandler = () => {
+    setEnteredAmount((prev) => (prev += 1));
+
+    dispatch(addOneIngredient(ingredient));
+  };
+
   return (
     <div className="flex justify-between w-full">
       <span className="mr-5">{nameConverter(ingredient.name)}</span>
       <div className="flex items-center gap-2">
+        <button onClick={minusHandler}>
+          <FaMinus />
+        </button>
         <input
           type="number"
           className="text-center"
           value={enteredAmount}
           onChange={amountChangeHandler}
         />
+        <button onClick={plusHandler}>
+          <FaPlus />
+        </button>
       </div>
     </div>
   );

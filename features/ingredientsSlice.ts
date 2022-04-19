@@ -125,6 +125,18 @@ export const ingredientsSlice = createSlice({
         ? (state[targetIngredientIndex].amount += 1)
         : state.push({ ...action.payload, amount: 1 });
     },
+    addOneIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
+      const targetIngredientIndex = findIndexByName(state, action.payload.name);
+
+      state[targetIngredientIndex].amount += 1;
+    },
+    removeOneIngredient(state: Ingredients, action: PayloadAction<Ingredient>) {
+      const targetIngredientIndex = findIndexByName(state, action.payload.name);
+
+      state[targetIngredientIndex].amount === 1
+        ? state.splice(targetIngredientIndex, 1)
+        : (state[targetIngredientIndex].amount -= 1);
+    },
     settingIngredientAmount(
       state: Ingredients,
       action: PayloadAction<{ ingredient: Ingredient; enteredAmount: number }>
@@ -148,7 +160,11 @@ export const getIngredients = createSelector(
   }
 );
 
-export const { addIngredient, settingIngredientAmount } =
-  ingredientsSlice.actions;
+export const {
+  addIngredient,
+  addOneIngredient,
+  removeOneIngredient,
+  settingIngredientAmount,
+} = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
