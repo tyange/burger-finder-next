@@ -19,7 +19,7 @@ const SideBar = () => {
   });
 
   return (
-    <aside className="box-border col-span-2 p-5 overflow-auto border shadow-md rounded-xl">
+    <aside className="box-border flex flex-col col-span-2 gap-2 p-5 overflow-auto border shadow-md rounded-xl">
       {panel}
     </aside>
   );
